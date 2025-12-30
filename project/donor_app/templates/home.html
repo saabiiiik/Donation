@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="hero">
+
+    <a href="/register-blood/" class="hero-btn btn-blood">
+        Become a Blood Donor
+    </a>
+
+    <a href="/register-organ/" class="hero-btn btn-organ">
+        Become an Organ Donor
+    </a>
+
+</div>
+
+<h1 style="text-align:center; color:#d32f2f;">LifeConnect</h1>
+<p style="text-align:center; color:#ccc;">Blood & Organ Donation Support System</p>
+
+
+<!-- DASHBOARD CARDS -->
+<div class="card-wrapper">
+
+    <div class="card">
+        <h3>Blood Donor</h3>
+        <p>Register yourself as a donor.</p>
+        <a class="card-btn red" href="/register-blood/">Register</a>
+    </div>
+
+    <div class="card">
+        <h3>Organ Donor</h3>
+        <p>Become an organ donor.</p>
+        <a class="card-btn green" href="/register-organ/">Register</a>
+    </div>
+
+    <div class="card">
+        <h3>Search Blood</h3>
+        <p>Find blood donors.</p>
+        <a class="card-btn red" href="/search-blood/">Search</a>
+    </div>
+
+    <div class="card">
+        <h3>Search Organ</h3>
+        <p>Find organ donors.</p>
+        <a class="card-btn green" href="/search-organ/">Search</a>
+    </div>
+
+</div>
+
+{% endblock %}

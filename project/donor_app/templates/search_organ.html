@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="text-align:center; color:#2e7d32;">Search Organ Donors</h2>
+
+<div class="form-box">
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Select Organ</label>
+        <select name="organ_type" required>
+            <option>Kidney</option>
+            <option>Liver</option>
+            <option>Heart</option>
+            <option>Lungs</option>
+            <option>Eyes</option>
+            <option>Bone Marrow</option>
+        </select>
+
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Enter your area...">
+
+        <button class="btn-green" type="submit">Search</button>
+    </form>
+</div>
+
+{% if donors %}
+    <h3 style="text-align:center; margin-top:30px;">Available Organ Donors</h3>
+
+    <div style="
+        display:flex;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:20px;
+        margin-top:20px;
+    ">
+        {% for d in donors %}
+            <div class="result-card" style="width:300px;">
+
+                <h3 style="color:#2e7d32; margin-bottom:10px;">
+                    🩺 {{ d.name }}
+                </h3>
+
+                <p><strong>Organ:</strong> 
+                    <span style="
+                        background:#2e7d32;
+                        color:white;
+                        padding:3px 8px;
+                        border-radius:5px;
+                    ">
+                        {{ d.organ_type }}
+                    </span>
+                </p>
+
+                <p><strong>Mobile:</strong> {{ d.mobile }}</p>
+                <p><strong>Location:</strong> {{ d.location }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% elif donors == None %}
+    <!-- No search yet -->
+{% else %}
+    <p class="no-result">No organ donors found ❌</p>
+{% endif %}
+
+{% endblock %}

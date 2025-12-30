@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if toast %}
+<script> showToast("{{ toast }}"); </script>
+{% endif %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector("form");
+    const nameInput = document.querySelector("input[name='name']");
+    const ageInput = document.querySelector("input[name='age']");
+    const mobileInput = document.querySelector("input[name='mobile']");
+    const locationInput = document.querySelector("input[name='location']");
+
+    /* ----------------------------
+       LIVE INPUT FILTERING
+    ------------------------------ */
+
+    // NAME: only letters + spaces
+    nameInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^A-Za-z ]/g, "");
+    });
+
+    // AGE: only numbers, max 2 digits
+    ageInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "").slice(0, 2);
+    });
+
+    // MOBILE: only numbers, max 12 digits
+    mobileInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "").slice(0, 12);
+    });
+
+    // LOCATION: allow letters + numbers + spaces
+    locationInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^A-Za-z0-9 ]/g, "");
+    });
+
+
+    /* ----------------------------
+         SUBMIT VALIDATION
+    ------------------------------ */
+
+    form.addEventListener("submit", function (e) {
+
+        /* NAME VALIDATION */
+        let name = nameInput.value.trim();
+        if (!/^[A-Za-z ]{3,}$/.test(name)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Name",
+                text: "Name must contain only letters & spaces (min 3 characters).",
+            });
+            return;
+        }
+
+        /* AGE VALIDATION */
+        let age = parseInt(ageInput.value);
+        if (isNaN(age) || age < 18 || age > 65) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "error",
+                title: "Age Not Eligible",
+                text: "Donors must be between 18 and 65 years old.",
+            });
+            return;
+        }
+
+        /* MOBILE VALIDATION */
+        let mobile = mobileInput.value;
+        if (mobile.length !== 10) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Mobile Number",
+                text: "Please enter a valid 10-digit mobile number.",
+            });
+            return;
+        }
+
+        /* LOCATION VALIDATION */
+        let location = locationInput.value.trim();
+        if (!/^[A-Za-z0-9 ]{3,}$/.test(location)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Location",
+                text: "Location must contain only letters, numbers, and spaces.",
+            });
+            return;
+        }
+
+        /* CHECKBOX VALIDATION */
+        if (!document.getElementById("agree").checked) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "warning",
+                title: "Please Confirm Eligibility",
+                text: "You must agree to the donor conditions before registering.",
+            });
+        }
+    });
+});
+</script>
+
+
+
+
+
+<!-- KNOWLEDGE / INFO BOX -->
+<div class="info-box">
+    <h3>🩸 Before You Register as a Blood Donor</h3>
+<ul>
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        You must be <strong>18 – 65 years old</strong>.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        Your weight should be at least <strong>50 kg</strong>.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        There must be a minimum <strong>3-month gap</strong> since your last donation.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        You should not have any <strong>fever, infection, or major illness</strong> recently.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        Your hemoglobin should be within a healthy range.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        You must not be under alcohol influence in the last <strong>24 hours</strong>.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        If you had COVID/Vaccination, take proper recovery time.
+    </li>
+
+    <li>
+        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
+        <strong>Double check your registration, because a small mistake can affect someone's life.</strong>
+    </li>
+</ul>
+
+
+    <p class="note">⚠ Please register only if you meet the above conditions.</p>
+</div>
+
+
+
+<!-- FORM SECTION -->
+<div class="form-box">
+    <h2 style="color:#d32f2f;">Blood Donor Registration</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Name</label>
+        <input type="text" name="name" id="name" required>
+
+       <label>Age</label>
+       <input type="text" name="age" id="age" maxlength="2" required>
+
+        <label>Blood Group</label>
+        <select name="blood_group" required>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option<O-</option>
+            <option>AB+</option><option>AB-</option>
+        </select>
+
+        <label>Mobile</label>
+        <input type="text" name="mobile" id="mobile" maxlength="12" required>
+
+        <label>Location</label>
+        <input type="text" name="location" id="location" required>
+
+
+        <!-- CHECKBOX -->
+        <div class="agree-box">
+            <input type="checkbox" id="agree" required>
+            <label for="agree">
+                I confirm that I meet all the eligibility requirements listed above.
+            </label>
+        </div>
+
+        <button class="btn-red" type="submit">Submit Registration</button>
+    </form>
+</div>
+
+{% endblock %}

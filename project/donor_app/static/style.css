@@ -1,0 +1,673 @@
+/* ------------------------------------------------------
+   GLOBAL SETTINGS
+------------------------------------------------------ */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #232526, #414345);
+    background-attachment: fixed;
+}
+
+.content {
+    padding: 20px;
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ------------------------------------------------------
+   NAVBAR
+------------------------------------------------------ */
+.navbar {
+    background: #d32f2f;
+    padding: 15px;
+    text-align: center;
+}
+
+.navbar a {
+    color: white;
+    margin: 0 12px;
+    font-size: 18px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    text-decoration: none !important; /* FULL override */
+}
+
+.navbar a:hover,
+.navbar a:focus,
+.navbar a:active {
+    text-decoration: none !important;   /* remove underline */
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
+}
+
+
+/* Logo */
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    background: white;
+    color: #d32f2f;
+    border-radius: 50%;
+    font-weight: bold;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    margin-right: 30px;
+}
+/* ----------- DASHBOARD CARD STYLING ----------- */
+
+.card-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.card {
+    background: #292929; /* NEW DARK PREMIUM BACKGROUND */
+    width: 260px;
+    padding: 28px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    color: white; /* text color visible */
+}
+
+/* shine effect */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -120%;
+    left: -120%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: rotate(25deg);
+    transition: 0.7s;
+    opacity: 0;
+
+    pointer-events: none; /* IMPORTANT: allows button click */
+}
+
+
+.card:hover::before {
+    top: -30%;
+    left: -30%;
+    opacity: 1;
+}
+
+/* hover animation */
+.card:hover {
+    transform: translateY(-12px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+/* card title */
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    color: #ff5252; /* red highlight */
+}
+
+/* card description */
+.card p {
+    font-size: 15px;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+}
+
+
+/* ---------- CARD BUTTONS ----------- */
+
+.card-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none !important; /* REMOVE UNDERLINE */
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+    color: white;
+}
+
+/* red button */
+.card-btn.red {
+    background: #d32f2f;
+}
+.card-btn.red:hover {
+    background: #b71c1c;
+    transform: scale(1.07);
+}
+
+/* green button */
+.card-btn.green {
+    background: #2e7d32;
+}
+.card-btn.green:hover {
+    background: #1b5e20;
+    transform: scale(1.07);
+}
+
+
+/* -------- DARK MODE SUPPORT -------- */
+.dark-mode .card {
+    background: #1e1e1e;
+    color: white;
+    box-shadow: 0 4px 18px rgba(255,255,255,0.08);
+}
+
+.dark-mode .card h3 {
+    color: #fff;
+}
+
+.dark-mode .card p {
+    color: #ccc;
+}
+
+
+
+
+
+/* ------------------------------------------------------
+   FORM DESIGN
+------------------------------------------------------ */
+.form-box {
+    background: white;
+    width: 400px;
+    padding: 35px;
+    border-radius: 12px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #d32f2f;
+    box-shadow: 0 0 6px rgba(211,47,47,0.4);
+}
+
+
+/* ------------------------------------------------------
+   BUTTONS
+------------------------------------------------------ */
+.btn-red, .btn-green {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    color: white;
+}
+
+.btn-red { background: #d32f2f; }
+.btn-red:hover { background: #b71c1c; transform: scale(1.05); }
+
+.btn-green { background: #2e7d32; }
+.btn-green:hover { background: #1b5e20; transform: scale(1.05); }
+
+
+/* ------------------------------------------------------
+   HERO BANNER
+------------------------------------------------------ */
+.hero {
+    width: 100%;
+    height: 380px;
+    background: url('/static/images/hero_blood.jpg') center/cover no-repeat;
+    border-radius: 20px;
+    margin: 20px auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+/* dark overlay */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.45);
+}
+
+.hero h1, .hero p, .hero .hero-btn {
+    position: relative;
+    z-index: 10;
+    color: white;
+}
+/* HERO BUTTON FIXED */
+/* ---------- HERO BUTTON BASE STYLE ---------- */
+.hero .hero-btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s ease;
+    z-index: 20;
+    display: inline-block;
+    margin: 8px;
+}
+
+/* ---------- BLOOD DONOR BUTTON ---------- */
+.btn-blood {
+    background: white;
+    color: #d32f2f !important;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.35);
+}
+
+/* Hover → Turn GREEN */
+.btn-blood:hover {
+    background: #2e7d32;
+    color: white !important;
+    transform: scale(1.07);
+    box-shadow: 0 6px 14px rgba(255, 255, 255, 0.5);
+}
+
+
+/* ---------- ORGAN DONOR BUTTON ---------- */
+.btn-organ {
+    background: #e6ffe6;
+    color: #2e7d32 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* Hover → Turn GREEN SAME STYLE */
+.btn-organ:hover {
+    background: #2e7d32;
+    color: white !important;
+    transform: scale(1.07);
+    box-shadow: 0 6px 14px rgba(255,255,255,0.5);
+}
+
+
+
+
+
+/* ------------------------------------------------------
+   INFO BOX (Eligibility)
+------------------------------------------------------ */
+/* ---------------- INFO BOX WITH ANIMATION ---------------- */
+
+.info-box {
+    background: white;
+    border-left: 6px solid #d32f2f;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    color: #333;
+    font-size: 15px;
+    line-height: 1.6;
+    
+    /* animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlide 0.6s ease forwards;
+}
+
+/* Animation keyframes */
+@keyframes fadeSlide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Title */
+.info-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #d32f2f;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bullet list */
+.info-box ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.info-box ul li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: #444;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Note */
+.info-box .note {
+    margin-top: 12px;
+    font-weight: 600;
+    color: #a30000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ---------------- DARK MODE ---------------- */
+
+.dark-mode .info-box {
+    background: #2c2c2c;
+    color: #f5f5f5;
+    border-left-color: #ff6b6b;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.06);
+}
+
+.dark-mode .info-box h3 {
+    color: #ff9b9b;
+}
+
+.dark-mode .info-box ul li {
+    color: #f2f2f2;
+}
+
+.dark-mode .info-box .note {
+    color: #ffb3b3;
+}
+
+
+/* ------------------------------------------------------
+   DARK MODE
+------------------------------------------------------ */
+.mode-btn {
+    background: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.dark-mode {
+    background: #1e1e1e !important;
+    color: white !important;
+}
+
+.dark-mode .navbar {
+    background: #000 !important;
+}
+
+.dark-mode .form-box,
+.dark-mode .card {
+    background: #2c2c2c !important;
+    color: white !important;
+}
+
+.dark-mode input,
+.dark-mode select {
+    background: #333;
+    border: 1px solid #888;
+    color: white;
+}
+
+
+/* ------------------------------------------------------
+   HELP FLOATING BUTTON
+------------------------------------------------------ */
+.help-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #d32f2f;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.help-btn:hover { transform: scale(1.1); }
+
+.help-popup {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 260px;
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.close-btn {
+    width: 100%;
+    background: #2e7d32;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+}
+
+.close-btn:hover { background: #1b5e20; }
+
+.dark-mode .help-popup {
+    background: #333;
+    color: white;
+}
+
+/* Container for checkbox + label */
+.agree-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;              /* reduces gap perfectly */
+    margin-top: 10px;
+}
+
+/* Remove full-width issue */
+.agree-box input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d32f2f;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: 0.2s ease-in-out;
+}
+
+/* Checkbox hover animation */
+.agree-box input[type="checkbox"]:hover {
+    box-shadow: 0 0 6px rgba(211, 47, 47, 0.4);
+}
+
+/* When checked → animated green tick */
+.agree-box input[type="checkbox"]:checked {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+    transform: scale(1.15);
+}
+
+.agree-box input[type="checkbox"]:checked::after {
+    content: "✔";
+    color: white;
+    position: absolute;
+    top: -3px;
+    left: 3px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Prevent line-breaking issues */
+.agree-box label {
+    display: inline-block;
+    line-height: 1.3;
+    font-size: 15px;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.app-footer {
+    background: #181818;
+    color: #ffffff;
+    text-align: center;
+    padding: 35px 20px;
+    margin-top: 60px;
+    border-top: 3px solid #d32f2f;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
+}
+
+.app-footer h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff4d4d;
+    margin-bottom: 8px;
+}
+
+.app-footer .tagline {
+    color: #cfcfcf;
+    margin-bottom: 18px;
+    font-size: 15px;
+}
+
+.footer-links a {
+    color: #ff9999;
+    margin: 0 14px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.7);
+    transform: translateY(-2px);
+}
+
+.app-footer .credits {
+    margin-top: 18px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+
+/* ---- RESULT GRID ---- */
+.result-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* ---- RESULT CARD ---- */
+.result-card {
+    background:gray;
+    width: 280px;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    transition: 0.35s ease;
+    animation: fadeSlide 0.6s ease;
+}
+
+/* Card Hover */
+.result-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.28);
+}
+
+/* Donor Name */
+.donor-name {
+    color: #d32f2f;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Blood Group Badge */
+.bg-badge {
+    background: #d32f2f;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* No results */
+.no-result {
+    text-align: center;
+    color: #d32f2f;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Dark mode support */
+.dark-mode .result-card {
+    background: #2c2c2c;
+    color: white;
+    box-shadow: 0 6px 12px rgba(255,255,255,0.1);
+}
+
+.dark-mode .bg-badge {
+    background: #ff6666;
+}
+
+
+
+.mode-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: #333;
+    border: none;
+    float: right;
+    margin-left: auto;
+    padding: 6px 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.mode-btn:hover {
+    transform: scale(1.08);
+    background: #f8f8f8;
+}
+
+/* Dark Mode button styling */
+.dark-mode .mode-btn {
+    background: #333;
+    color: white;
+}

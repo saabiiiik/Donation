@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>LifeConnect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #d32f2f;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            padding: 20px;
+        }
+    </style>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- TOAST AREA -->
+<div id="toastContainer"></div>
+
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+    <div class="nav-left"></div>
+    <span class="logo-icon">+</span>
+    <span class="logo">LifeConnect</span>
+        <a href="/">Home</a>
+        <!-- <a href="/register-blood/">Blood Donor</a> -->
+        <!-- <a href="/register-organ/">Organ Donor</a> -->
+        <a href="/search-blood/">Search Blood</a>
+        <a href="/search-organ/">Search Organ</a>
+        <a href="/contact/">Contact Us</a>
+        <a href="/about/">About Us</a>
+         
+        <button id="modeToggle" class="mode-btn">
+    <span class="material-icons" id="modeIcon">dark_mode</span>
+    <span id="modeText">Dark Mode</span>
+        </button>
+
+
+    </div>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- FLOATING HELP BUTTON -->
+<div id="helpButton" class="help-btn">🆘</div>
+
+<!-- HELP POPUP -->
+<div id="helpPopup" class="help-popup">
+    <h3>Need Help?</h3>
+    <p>📞 Emergency: <strong>102</strong></p>
+    <p>☎ Support: +91 99999 9999</p>
+
+    <a href="/contact/" class="help-link">Contact Us</a>
+    <a href="/about/" class="help-link">About LifeConnect</a>
+
+    <button id="closeHelp" class="close-btn">Close</button>
+</div>
+
+
+<!-- FOOTER -->
+<footer class="app-footer">
+
+    <h3>LifeConnect</h3>
+
+    <p class="tagline">
+        Saving lives through Blood & Organ Donation
+    </p>
+
+    <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/register-blood/">Blood Donor</a>
+        <a href="/register-organ/">Organ Donor</a>
+        <a href="/search-blood/">Search Blood</a>
+        <a href="/search-organ/">Search Organ</a>
+    </div>
+
+    <p class="credits">
+        © 2025 LifeConnect | Designed by saabiiiik 💻
+    </p>
+
+</footer>
+
+
+<script>
+/* Dark mode with persistence (localStorage) */
+(function () {
+  const toggleBtn = document.getElementById('modeToggle');
+  const modeText = document.getElementById('modeText');
+  const modeIcon = document.getElementById('modeIcon');
+
+  function applyMode(mode) {
+    if (mode === 'dark') {
+      document.body.classList.add('dark-mode');
+      if (modeText) modeText.textContent = "Light Mode";
+      if (modeIcon) modeIcon.textContent = "light_mode";
+    } else {
+      document.body.classList.remove('dark-mode');
+      if (modeText) modeText.textContent = "Dark Mode";
+      if (modeIcon) modeIcon.textContent = "dark_mode";
+    }
+  }
+
+  // Restore saved mode on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('lifeconnect_mode') || 'light';
+    applyMode(saved);
+
+    // Click handler
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        const next = isDark ? 'light' : 'dark';
+        applyMode(next);
+        localStorage.setItem('lifeconnect_mode', next);
+      });
+    }
+  });
+})();
+</script>
+
+
+
+
+
+<script>
+    const helpBtn = document.getElementById('helpButton');
+    const helpPopup = document.getElementById('helpPopup');
+    const closeHelp = document.getElementById('closeHelp');
+
+    helpBtn.addEventListener('click', () => {
+        helpPopup.style.display = "block";
+    });
+
+    closeHelp.addEventListener('click', () => {
+        helpPopup.style.display = "none";
+    });
+</script>
+
+<script>
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toastContainer");
+        const toast = document.createElement("div");
+        
+        toast.classList.add("toast", type);
+        toast.innerText = message;
+
+        container.appendChild(toast);
+
+        // Remove toast after animation
+        setTimeout(() => {
+            toast.remove();
+        }, 4000);
+    }
+</script>
+
+
+
+
+
+</body>
+</html>

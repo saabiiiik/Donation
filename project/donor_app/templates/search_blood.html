@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="text-align:center; color:#d32f2f;">Search Blood Donors</h2>
+
+<div class="form-box">
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Blood Group</label>
+        <select name="blood_group" required>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+        </select>
+
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Enter your area...">
+
+        <button class="btn-red" type="submit">Search</button>
+    </form>
+</div>
+
+{% if donors %}
+    <h3 style="text-align:center; margin-top:30px;">Available Donors</h3>
+
+    <div class="result-grid">
+        {% for d in donors %}
+            <div class="result-card">
+                <h3 class="donor-name">❤️ {{ d.name }}</h3>
+
+                <p><strong>Blood Group:</strong>
+                    <span class="bg-badge">{{ d.blood_group }}</span>
+                </p>
+
+                <p><strong>Mobile:</strong> {{ d.mobile }}</p>
+                <p><strong>Location:</strong> {{ d.location }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% elif donors == None %}
+    <!-- do nothing before search -->
+{% else %}
+    <p class="no-result">❌ No donors found</p>
+{% endif %}
+
+{% endblock %}

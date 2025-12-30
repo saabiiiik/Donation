@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- SWEETALERT POPUP AFTER FORM SUBMIT -->
+{% if toast %}
+<script>
+Swal.fire({
+    icon: "success",
+    title: "Message Sent!",
+    text: "{{ toast }}",
+    confirmButtonColor: "#d32f2f"
+});
+</script>
+{% endif %}
+
+
+
+<!-- ================= CONTACT PAGE STYLING ================= -->
+<style>
+.contact-box {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 16px;
+    width: 520px;
+    margin: 40px auto;
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease;
+}
+
+/* Top info bar */
+.contact-top {
+    background: #ececec;
+    padding: 18px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #444;
+}
+
+.top-item {
+    text-align: center;
+}
+.top-item i {
+    font-size: 22px;
+    color: #d32f2f;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+.contact-box input,
+.contact-box textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    margin-bottom: 18px;
+    font-size: 15px;
+}
+
+.contact-box input:focus,
+.contact-box textarea:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 6px rgba(211,47,47,0.35);
+    outline: none;
+}
+
+/* Button */
+.send-btn {
+    width: 100%;
+    background: #d32f2f;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.send-btn:hover {
+    background: #b71c1c;
+    transform: scale(1.04);
+}
+
+/* --- DARK MODE FIX --- */
+.dark-mode .contact-box {
+    background: #2d2d2d !important;
+    color: white !important;
+}
+.dark-mode .contact-top {
+    background: #3a3a3a !important;
+    color: white !important;
+}
+.dark-mode .contact-box input,
+.dark-mode .contact-box textarea {
+    background: #3a3a3a !important;
+    color: white !important;
+    border: 1px solid #777 !important;
+}
+.dark-mode .contact-box input::placeholder,
+.dark-mode .contact-box textarea::placeholder {
+    color: #ccc !important;
+}
+.dark-mode .top-item i {
+    color: #ff9999 !important;
+}
+</style>
+
+
+
+<!-- ================= PAGE TITLE ================= -->
+<h2 style="text-align:center; color:#d32f2f;">
+    <span style="font-size:30px;">📩</span> Contact Us
+</h2>
+
+
+<!-- ================= CONTACT CARD ================= -->
+<div class="contact-box">
+
+    <!-- Top Info -->
+    <div class="contact-top">
+        <div class="top-item">
+            <i>📞</i>
+            <div>+91 98765 43210</div>
+        </div>
+
+        <div class="top-item">
+            <i>📧</i>
+            <div>support@lifeconnect.in</div>
+        </div>
+
+        <div class="top-item">
+            <i>📍</i>
+            <div>Kerala, India</div>
+        </div>
+    </div>
+
+
+    <!-- ================= CONTACT FORM ================= -->
+    <form method="POST" id="contactForm">
+        {% csrf_token %}
+
+        <label>Your Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter your name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+
+        <label>Message</label>
+        <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
+
+        <button class="send-btn" type="submit">Send Message</button>
+    </form>
+
+</div>
+
+
+
+
+<!-- ================= VALIDATION SCRIPT ================= -->
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+
+    let name = document.getElementById("name").value;
+
+    // NAME VALIDATION — only letters + space
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        e.preventDefault();
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Name",
+            text: "Name must contain only letters. Numbers & symbols are not allowed."
+        });
+        return;
+    }
+
+    // allow backend submission to trigger the REAL success popup
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.success-box {
+    width: 480px;
+    margin: 70px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    animation: popIn 0.6s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    80% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #2e7d32;
+    animation: bounce 1.2s ease;
+    margin-bottom: 10px;
+}
+
+@keyframes bounce {
+    0% { transform: scale(0.2); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.success-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    margin: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.home-btn { background: #d32f2f; }
+.home-btn:hover { background: #b71c1c; transform: scale(1.05); }
+
+.another-btn { background: #2e7d32; }
+.another-btn:hover { background: #1b5e20; transform: scale(1.05); }
+
+.dark-mode .success-box {
+    background: #2c2c2c;
+    color: white;
+}
+</style>
+
+
+<div class="success-box">
+
+    <div class="success-icon">✔</div>
+
+    <h2 style="color:#2e7d32; margin-bottom:10px;">Registration Successful!</h2>
+
+    <p id="quote" style="font-size:17px; margin-top:15px; opacity:0.9;"></p>
+
+    <br>
+
+    <a href="/" class="success-btn home-btn">🏠 Back to Home</a>
+    <!-- <a href="/register-blood/" class="success-btn another-btn">➕ Register Another Donor</a> -->
+</div>
+
+<!-- SUCCESS POPUP -->
+<script>
+Swal.fire({
+    icon: "success",
+    title: "Registration Completed!",
+    text: "Thank you for helping save a life ❤️",
+    showConfirmButton: false,
+    timer: 2000
+});
+</script>
+
+<!-- QUOTE GENERATOR -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const quotes = [
+        "“You didn’t just donate… you gifted someone another sunrise.” ☀️❤️",
+        "“One act of kindness can save a life — today, it was yours.” 🌍💫",
+        "“Real heroes are ordinary people who choose to help others.” 🦸‍♂️",
+        "“Your donation today becomes someone’s miracle tomorrow.” 🌈",
+        "“Every drop counts… and yours might save a heartbeat.” 🩸❤️"
+    ];
+
+    document.getElementById("quote").innerText =
+        quotes[Math.floor(Math.random() * quotes.length)];
+});
+</script>
+
+{% endblock %}
