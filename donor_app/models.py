@@ -4,20 +4,19 @@ from django.contrib.auth.models import User
 
 # ------------------ BLOOD DONOR ------------------
 class Donor(models.Model):
-    BLOOD_GROUP_CHOICES = [
-        ("A+", "A+"), ("A-", "A-"),
-        ("B+", "B+"), ("B-", "B-"),
-        ("O+", "O+"), ("O-", "O-"),
-        ("AB+", "AB+"), ("AB-", "AB-"),
-    ]
-
-    # 🔹 NEW (for login & dashboard)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         null=True,
         blank=True
     )
+
+    BLOOD_GROUP_CHOICES = [
+        ("A+", "A+"), ("A-", "A-"),
+        ("B+", "B+"), ("B-", "B-"),
+        ("O+", "O+"), ("O-", "O-"),
+        ("AB+", "AB+"), ("AB-", "AB-"),
+    ]
 
     name = models.CharField(max_length=50)
     age = models.IntegerField()
@@ -26,8 +25,8 @@ class Donor(models.Model):
     location = models.CharField(max_length=50)
     availability = models.BooleanField(default=True)
 
-    # 🔹 NEW (stats)
-    total_donations = models.IntegerField(default=0)
+    # ✅ ADD THIS
+    total_donations = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} ({self.blood_group})"
