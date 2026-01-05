@@ -78,7 +78,7 @@ class DonationHistoryAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "donor",
+        "user",              # ✅ FIXED
         "donation_type",
         "details",
         "donated_on",
@@ -88,11 +88,10 @@ class DonationHistoryAdmin(admin.ModelAdmin):
     list_filter = ("donation_type", "status", "donated_on")
 
     search_fields = (
-        "donor__name",
-        "donor__mobile",
+        "user__username",    # ✅ mobile stored as username
         "details",
     )
 
     readonly_fields = ("donated_on",)
-
     list_per_page = 20
+
