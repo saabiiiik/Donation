@@ -4,12 +4,16 @@
 
 <h2 style="text-align:center;">👤 My Dashboard</h2>
 
+<!-- ================= PROFILE SECTION ================= -->
+
 {% if donor %}
 <div class="card">
     <h3>{{ donor.name }}</h3>
+
     <p><strong>Blood Group:</strong> {{ donor.blood_group }}</p>
     <p><strong>Location:</strong> {{ donor.location }}</p>
-    <p><strong>Total Donations:</strong> {{ donor.total_donations }}</p>
+    <p><strong>Total Blood Donations:</strong> {{ donor.total_donations }}</p>
+
     <p>
         <strong>Status:</strong>
         {% if donor.availability %}
@@ -19,11 +23,23 @@
         {% endif %}
     </p>
 </div>
+{% endif %}
 
-<!-- 🩸 DONATION HISTORY (NEW) -->
+{% if organ_donor %}
+<div class="card">
+    <h3>{{ organ_donor.name }}</h3>
+
+    <p><strong>Organ:</strong> {{ organ_donor.organ_type }}</p>
+    <p><strong>Location:</strong> {{ organ_donor.location }}</p>
+    <p><strong>Total Organ Donations:</strong> {{ organ_donor.total_donations }}</p>
+</div>
+{% endif %}
+
+<!-- ================= DONATION HISTORY ================= -->
+
 <h3 style="margin-top:30px;">🩸 Donation History</h3>
 
-{% if donations %}
+{% if history %}
 <table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top:10px;">
     <tr>
         <th>Date</th>
@@ -32,7 +48,7 @@
         <th>Status</th>
     </tr>
 
-    {% for d in donations %}
+    {% for d in history %}
     <tr>
         <td>{{ d.donated_on }}</td>
         <td>{{ d.donation_type }}</td>
@@ -45,19 +61,11 @@
 <p>No donation history yet.</p>
 {% endif %}
 
-{% endif %}
+<!-- ================= ACTION BUTTONS ================= -->
 
-{% if organ_donor %}
-<div class="card">
-    <h3>{{ organ_donor.name }}</h3>
-    <p><strong>Organ:</strong> {{ organ_donor.organ_type }}</p>
-    <p><strong>Location:</strong> {{ organ_donor.location }}</p>
-    <p><strong>Total Donations:</strong> {{ organ_donor.total_donations }}</p>
-</div>
-{% endif %}
-
-<div style="text-align:center; margin-top:20px;">
-    <a href="{% url 'logout' %}" class="btn-red">Logout</a>
+<div style="text-align:center; margin-top:25px;">
+    <a href="/" class="btn-red">🏠 Home</a>
+    <a href="{% url 'logout' %}" class="btn-red">🚪 Logout</a>
 </div>
 
 {% endblock %}

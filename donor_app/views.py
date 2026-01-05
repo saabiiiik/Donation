@@ -229,23 +229,29 @@ def login_view(request):
         mobile = request.POST.get("username")
         password = request.POST.get("password")
 
-        if not User.objects.filter(username=mobile).exists():
+        if not mobile.isdigit() or len(mobile) != 10:
             return render(request, "login.html", {
-                "toast": "Mobile number not registered"
+                "toast": "Mobile number must be 10 digits"
             })
 
         user = authenticate(request, username=mobile, password=password)
 
         if user is None:
             return render(request, "login.html", {
-                "toast": "Incorrect password"
+                "toast": "Invalid mobile number or password"
             })
 
         login(request, user)
-        next_url = request.GET.get("next")
-        return redirect(next_url or "dashboard")
+
+        redirect_to = request.GET.get("next") or "/donor/dashboard/"
+
+        return render(request, "login.html", {
+            "success": "Login successful!",
+            "redirect_to": redirect_to
+        })
 
     return render(request, "login.html")
+
 
 
 # ------------------ LOGOUT ------------------

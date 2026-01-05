@@ -5,25 +5,40 @@
 <div class="form-box">
     <h2>Donor Login</h2>
 
-    {# 🔔 Show message if redirected from protected page #}
+    {# 🔔 If redirected from protected page #}
     {% if request.GET.next %}
         <script>
             showToast("Please login to continue", "error");
         </script>
     {% endif %}
 
+    {# ❌ Error popup from backend (wrong mobile / password) #}
     {% if toast %}
         <script>
             showToast("{{ toast|escapejs }}", "error");
         </script>
     {% endif %}
 
-    {# 🔑 IMPORTANT: keep ?next= for auto-redirect #}
+    {# ✅ Success popup (set by backend after login) #}
+    {% if success %}
+        <script>
+            showToast("{{ success|escapejs }}", "success");
+            setTimeout(() => {
+                window.location.href = "{{ redirect_to }}";
+            }, 1200);
+        </script>
+    {% endif %}
+
+    {# 🔑 IMPORTANT: keep ?next= for auto redirect #}
     <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}">
         {% csrf_token %}
 
         <label>Mobile Number</label>
-        <input type="text" name="username" required>
+        <input type="text"
+               name="username"
+               maxlength="10"
+               oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+               required>
 
         <label>Password</label>
         <input type="password" name="password" required>
