@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>My Profile</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Username</label>
+    <input type="text" value="{{ request.user.username }}" disabled>
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ request.user.email }}">
+
+    <button class="btn-red" type="submit">Update Profile</button>
+</form>
+
+{% endblock %}

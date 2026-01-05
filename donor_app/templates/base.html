@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LifeConnect</title>
+
+    <!-- Icons & Alerts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #d32f2f;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOAST AREA -->
+<div id="toastContainer"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <span class="logo-icon">+</span>
+    <span class="logo">LifeConnect</span>
+
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'search_blood' %}">Search Blood</a>
+    <a href="{% url 'search_organ' %}">Search Organ</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+    <a href="{% url 'about' %}">About Us</a>
+
+    {# 🔐 AUTH LINKS — ONLY NEW PART #}
+    {% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'profile' %}">Profile</a>
+    <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <!-- <a href="{% url 'signup' %}">Sign Up</a> -->
+    {% endif %}
+
+
+    <button id="modeToggle" class="mode-btn">
+        <span class="material-icons" id="modeIcon">dark_mode</span>
+        <span id="modeText">Dark Mode</span>
+    </button>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- FLOATING HELP BUTTON -->
+<div id="helpButton" class="help-btn">🆘</div>
+
+<!-- HELP POPUP -->
+<div id="helpPopup" class="help-popup">
+    <h3>Need Help?</h3>
+    <p>📞 Emergency: <strong>102</strong></p>
+    <p>☎ Support: +91 99999 9999</p>
+
+    <a href="{% url 'contact' %}" class="help-link">Contact Us</a>
+    <a href="{% url 'about' %}" class="help-link">About LifeConnect</a>
+
+    <button id="closeHelp" class="close-btn">Close</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+    <h3>LifeConnect</h3>
+
+    <p class="tagline">
+        Saving lives through Blood & Organ Donation
+    </p>
+
+    <div class="footer-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'register_blood' %}">Blood Donor</a>
+        <a href="{% url 'register_organ' %}">Organ Donor</a>
+        <a href="{% url 'search_blood' %}">Search Blood</a>
+        <a href="{% url 'search_organ' %}">Search Organ</a>
+    </div>
+
+    <p class="credits">
+        © 2025 LifeConnect | Designed by saabiiiik 💻
+    </p>
+</footer>
+
+<!-- DARK MODE SCRIPT -->
+<script>
+(function () {
+    const toggleBtn = document.getElementById('modeToggle');
+    const modeText = document.getElementById('modeText');
+    const modeIcon = document.getElementById('modeIcon');
+
+    function applyMode(mode) {
+        if (mode === 'dark') {
+            document.body.classList.add('dark-mode');
+            modeText.textContent = "Light Mode";
+            modeIcon.textContent = "light_mode";
+        } else {
+            document.body.classList.remove('dark-mode');
+            modeText.textContent = "Dark Mode";
+            modeIcon.textContent = "dark_mode";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const saved = localStorage.getItem('lifeconnect_mode') || 'light';
+        applyMode(saved);
+
+        toggleBtn.addEventListener('click', () => {
+            const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            applyMode(next);
+            localStorage.setItem('lifeconnect_mode', next);
+        });
+    });
+})();
+</script>
+
+<!-- HELP POPUP SCRIPT -->
+<script>
+const helpBtn = document.getElementById('helpButton');
+const helpPopup = document.getElementById('helpPopup');
+const closeHelp = document.getElementById('closeHelp');
+
+helpBtn.addEventListener('click', () => {
+    helpPopup.style.display = "block";
+});
+
+closeHelp.addEventListener('click', () => {
+    helpPopup.style.display = "none";
+});
+</script>
+
+<!-- TOAST SCRIPT -->
+<script>
+function showToast(message, type = "success") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+
+    toast.classList.add("toast", type);
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 4000);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>Donor Login</h2>
+
+    {# 🔔 Show message if redirected from protected page #}
+    {% if request.GET.next %}
+        <script>
+            showToast("Please login to continue", "error");
+        </script>
+    {% endif %}
+
+    {% if toast %}
+        <script>
+            showToast("{{ toast|escapejs }}", "error");
+        </script>
+    {% endif %}
+
+    {# 🔑 IMPORTANT: keep ?next= for auto-redirect #}
+    <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}">
+        {% csrf_token %}
+
+        <label>Mobile Number</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button class="btn-red" type="submit">Login</button>
+    </form>
+
+    <!-- 🔹 SIGNUP LINK -->
+    <p style="margin-top:15px; text-align:center; font-size:14px;">
+        Don’t have an account?
+        <a href="{% url 'signup' %}" style="color:#d32f2f; font-weight:bold;">
+            Create an account
+        </a>
+    </p>
+
+    <!-- 🔹 FORGOT PASSWORD -->
+    <p style="margin-top:8px; text-align:center; font-size:14px;">
+        <a href="{% url 'password_reset' %}" style="color:#555;">
+            Forgot password?
+        </a>
+    </p>
+</div>
+
+{% endblock %}

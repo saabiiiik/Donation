@@ -1,13 +1,17 @@
-<!-- {% extends 'base.html' %}
-
+{% extends 'base.html' %}
 {% block content %}
+
 <div class="form-box">
-    <h2 style="color:#d32f2f;">Create Account</h2>
+    <h2>Create Account</h2>
+
+    {% if error %}
+        <script>showToast("{{ error|escapejs }}","error");</script>
+    {% endif %}
 
     <form method="POST">
         {% csrf_token %}
 
-        <label>Username</label>
+        <label>Username (mobile number)</label>
         <input type="text" name="username" required>
 
         <label>Email</label>
@@ -16,16 +20,11 @@
         <label>Password</label>
         <input type="password" name="password" required>
 
-        {% if error %}
-            <p style="color:red;">{{ error }}</p>
-        {% endif %}
+        <label>Confirm Password</label>
+        <input type="password" name="confirm" required>
 
         <button class="btn-red" type="submit">Sign Up</button>
     </form>
-
-    <p style="margin-top:10px;">
-        Already have an account?
-        <a href="/login/">Login</a>
-    </p>
 </div>
-{% endblock %} -->
+
+{% endblock %}

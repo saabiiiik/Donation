@@ -5,11 +5,11 @@
 <!-- HERO SECTION -->
 <div class="hero">
 
-    <a href="/register-blood/" class="hero-btn btn-blood">
+    <a href="{% url 'register_blood' %}" class="hero-btn btn-blood">
         Become a Blood Donor
     </a>
 
-    <a href="/register-organ/" class="hero-btn btn-organ">
+    <a href="{% url 'register_organ' %}" class="hero-btn btn-organ">
         Become an Organ Donor
     </a>
 
@@ -25,25 +25,25 @@
     <div class="card">
         <h3>Blood Donor</h3>
         <p>Register yourself as a donor.</p>
-        <a class="card-btn red" href="/register-blood/">Register</a>
+        <a class="card-btn red" href="{% url 'register_blood' %}">Register</a>
     </div>
 
     <div class="card">
         <h3>Organ Donor</h3>
         <p>Become an organ donor.</p>
-        <a class="card-btn green" href="/register-organ/">Register</a>
+        <a class="card-btn green" href="{% url 'register_organ' %}">Register</a>
     </div>
 
     <div class="card">
         <h3>Search Blood</h3>
         <p>Find blood donors.</p>
-        <a class="card-btn red" href="/search-blood/">Search</a>
+        <a class="card-btn red" href="{% url 'search_blood' %}">Search</a>
     </div>
 
     <div class="card">
         <h3>Search Organ</h3>
         <p>Find organ donors.</p>
-        <a class="card-btn green" href="/search-organ/">Search</a>
+        <a class="card-btn green" href="{% url 'search_organ' %}">Search</a>
     </div>
 
 </div>

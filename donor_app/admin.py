@@ -1,11 +1,10 @@
 from django.contrib import admin
-from .models import Donor, OrganDonor
-from .models import ContactMessage
+from .models import Donor, OrganDonor, ContactMessage, DonationHistory
 
 
-
-
+# ---------------- CONTACT MESSAGE ---------------- #
 admin.site.register(ContactMessage)
+
 
 # ---------------- BLOOD DONOR ADMIN ---------------- #
 @admin.register(Donor)
@@ -13,22 +12,20 @@ class DonorAdmin(admin.ModelAdmin):
 
     list_display = (
         "id", "name", "blood_group", "mobile",
-        "location", "availability", "show_status"
+        "location", "availability", "show_status", "total_donations"
     )
-    
+
     list_filter = ("blood_group", "availability", "location")
-    
+
     search_fields = ("name", "mobile", "blood_group", "location")
-    
-    list_per_page = 10  # pagination
-    
-    readonly_fields = ("id",)
+
+    list_per_page = 10
+
+    readonly_fields = ("id", "total_donations")
 
     # Colored status badge
     def show_status(self, obj):
-        if obj.availability:
-            return "🟢 Available"
-        return "🔴 Not Available"
+        return "🟢 Available" if obj.availability else "🔴 Not Available"
     show_status.short_description = "Status"
 
     # Custom admin actions
@@ -43,21 +40,20 @@ class DonorAdmin(admin.ModelAdmin):
     make_unavailable.short_description = "Mark selected donors as NOT AVAILABLE"
 
 
-
 # ---------------- ORGAN DONOR ADMIN ---------------- #
 @admin.register(OrganDonor)
 class OrganDonorAdmin(admin.ModelAdmin):
 
     list_display = (
         "id", "name", "organ_type", "mobile",
-        "location", "is_available", "status_label"
+        "location", "is_available", "status_label", "total_donations"
     )
-    
+
     list_filter = ("organ_type", "is_available", "location")
-    
+
     search_fields = ("name", "mobile", "organ_type", "location")
 
-    readonly_fields = ("id",)
+    readonly_fields = ("id", "total_donations")
 
     list_per_page = 10
 
@@ -74,3 +70,29 @@ class OrganDonorAdmin(admin.ModelAdmin):
     def set_unavailable(self, request, queryset):
         queryset.update(is_available=False)
     set_unavailable.short_description = "Mark selected donors as NOT AVAILABLE"
+
+
+# ---------------- DONATION HISTORY ADMIN (NEW) ---------------- #
+@admin.register(DonationHistory)
+class DonationHistoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "donor",
+        "donation_type",
+        "details",
+        "donated_on",
+        "status",
+    )
+
+    list_filter = ("donation_type", "status", "donated_on")
+
+    search_fields = (
+        "donor__name",
+        "donor__mobile",
+        "details",
+    )
+
+    readonly_fields = ("donated_on",)
+
+    list_per_page = 20

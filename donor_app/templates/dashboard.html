@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="text-align:center;">👤 My Dashboard</h2>
+
+{% if donor %}
+<div class="card">
+    <h3>{{ donor.name }}</h3>
+    <p><strong>Blood Group:</strong> {{ donor.blood_group }}</p>
+    <p><strong>Location:</strong> {{ donor.location }}</p>
+    <p><strong>Total Donations:</strong> {{ donor.total_donations }}</p>
+    <p>
+        <strong>Status:</strong>
+        {% if donor.availability %}
+            🟢 Available
+        {% else %}
+            🔴 Not Available
+        {% endif %}
+    </p>
+</div>
+
+<!-- 🩸 DONATION HISTORY (NEW) -->
+<h3 style="margin-top:30px;">🩸 Donation History</h3>
+
+{% if donations %}
+<table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top:10px;">
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Details</th>
+        <th>Status</th>
+    </tr>
+
+    {% for d in donations %}
+    <tr>
+        <td>{{ d.donated_on }}</td>
+        <td>{{ d.donation_type }}</td>
+        <td>{{ d.details }}</td>
+        <td>{{ d.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No donation history yet.</p>
+{% endif %}
+
+{% endif %}
+
+{% if organ_donor %}
+<div class="card">
+    <h3>{{ organ_donor.name }}</h3>
+    <p><strong>Organ:</strong> {{ organ_donor.organ_type }}</p>
+    <p><strong>Location:</strong> {{ organ_donor.location }}</p>
+    <p><strong>Total Donations:</strong> {{ organ_donor.total_donations }}</p>
+</div>
+{% endif %}
+
+<div style="text-align:center; margin-top:20px;">
+    <a href="{% url 'logout' %}" class="btn-red">Logout</a>
+</div>
+
+{% endblock %}

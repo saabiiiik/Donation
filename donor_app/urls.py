@@ -8,7 +8,15 @@ urlpatterns = [
     path("search-organ/", views.search_organ, name="search_organ"),
     path("contact/", views.contact, name="contact"),
     path("about/", views.about, name="about"),
-    # path("signup/", views.signup, name="signup"),
+    path("success/", views.success, name="success"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("signup/", views.signup_view, name="signup"),
+    path("profile/", views.profile_view, name="profile"),
+
+
+
 
 ]
 

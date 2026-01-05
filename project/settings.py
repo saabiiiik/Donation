@@ -5,21 +5,26 @@ Django settings for project project.
 from pathlib import Path
 import os
 
-# Build paths
+# --------------------------------------------------
+# BASE DIR
+# --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# --------------------------------------------------
 # SECURITY
+# --------------------------------------------------
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
     "django-insecure-dev-key-change-this"
 )
 
-# ⚠️ Force DEBUG for Vercel test
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-# Applications
+# --------------------------------------------------
+# APPLICATIONS
+# --------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,16 +34,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'donor_app',
-
-    'rest_framework',
-    'rest_framework.authtoken',
 ]
 
-# Middleware
+
+# --------------------------------------------------
+# MIDDLEWARE (NO WHITENOISE)
+# --------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,9 +50,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# --------------------------------------------------
+# URLS & WSGI
+# --------------------------------------------------
 ROOT_URLCONF = 'project.urls'
 
-# Templates
+WSGI_APPLICATION = 'project.wsgi.application'
+
+# --------------------------------------------------
+# TEMPLATES
+# --------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -65,11 +75,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
-
-# ----------------------
-# DATABASE (FORCE SQLITE)
-# ----------------------
+# --------------------------------------------------
+# DATABASE (SQLITE)
+# --------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -77,7 +85,9 @@ DATABASES = {
     }
 }
 
-# Password validation
+# --------------------------------------------------
+# PASSWORD VALIDATION
+# --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -93,29 +103,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
+# --------------------------------------------------
+# INTERNATIONALIZATION
+# --------------------------------------------------
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# --------------------------------------------------
+# STATIC FILES (LOCAL DEV)
+# --------------------------------------------------
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Auth
+# --------------------------------------------------
+# AUTH
+# --------------------------------------------------
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-# DRF
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ]
-}
-
-# Default PK
+# --------------------------------------------------
+# DEFAULT PRIMARY KEY
+# --------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if toast %}
-<script> showToast("{{ toast }}"); </script>
+<script> showToast("{{ toast|escapejs }}"); </script>
 {% endif %}
 
 <script>
@@ -19,26 +19,21 @@ document.addEventListener("DOMContentLoaded", function () {
        LIVE INPUT FILTERING
     ------------------------------ */
 
-    // NAME: only letters + spaces
     nameInput.addEventListener("input", function () {
         this.value = this.value.replace(/[^A-Za-z ]/g, "");
     });
 
-    // AGE: only numbers, max 2 digits
     ageInput.addEventListener("input", function () {
         this.value = this.value.replace(/[^0-9]/g, "").slice(0, 2);
     });
 
-    // MOBILE: only numbers, max 12 digits
     mobileInput.addEventListener("input", function () {
         this.value = this.value.replace(/[^0-9]/g, "").slice(0, 12);
     });
 
-    // LOCATION: allow letters + numbers + spaces
     locationInput.addEventListener("input", function () {
         this.value = this.value.replace(/[^A-Za-z0-9 ]/g, "");
     });
-
 
     /* ----------------------------
          SUBMIT VALIDATION
@@ -46,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", function (e) {
 
-        /* NAME VALIDATION */
         let name = nameInput.value.trim();
         if (!/^[A-Za-z ]{3,}$/.test(name)) {
             e.preventDefault();
@@ -58,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        /* AGE VALIDATION */
         let age = parseInt(ageInput.value);
         if (isNaN(age) || age < 18 || age > 65) {
             e.preventDefault();
@@ -70,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        /* MOBILE VALIDATION */
         let mobile = mobileInput.value;
         if (mobile.length !== 10) {
             e.preventDefault();
@@ -82,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        /* LOCATION VALIDATION */
         let location = locationInput.value.trim();
         if (!/^[A-Za-z0-9 ]{3,}$/.test(location)) {
             e.preventDefault();
@@ -94,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        /* CHECKBOX VALIDATION */
         if (!document.getElementById("agree").checked) {
             e.preventDefault();
             Swal.fire({
@@ -107,80 +97,51 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
-
-
-
-<!-- KNOWLEDGE / INFO BOX -->
+<!-- INFO BOX -->
 <div class="info-box">
-    <h3>🩸 Before You Register as a Blood Donor</h3>
-<ul>
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        You must be <strong>18 – 65 years old</strong>.
-    </li>
+    <h3 style="display:flex; align-items:center; color:#2e7d32;">
+        <span class="material-icons" style="margin-right:8px; font-size:26px;">volunteer_activism</span>
+        Before You Register as an Organ Donor
+    </h3>
 
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        Your weight should be at least <strong>50 kg</strong>.
-    </li>
+    <ul style="margin-top:15px;">
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> You must be <strong>18 – 65 years old</strong>.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> You should be free from serious infectious diseases.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> You should not have uncontrolled diabetes, cancer, or severe illnesses.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> You must be mentally stable and willing to donate voluntarily.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> Your family should be informed about your decision.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> For living donation, you must be physically fit.</li>
+        <li><span class="material-icons" style="color:#2e7d32;">check_circle</span> <strong>Double-check your details before submitting.</strong></li>
+    </ul>
 
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        There must be a minimum <strong>3-month gap</strong> since your last donation.
-    </li>
-
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        You should not have any <strong>fever, infection, or major illness</strong> recently.
-    </li>
-
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        Your hemoglobin should be within a healthy range.
-    </li>
-
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        You must not be under alcohol influence in the last <strong>24 hours</strong>.
-    </li>
-
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        If you had COVID/Vaccination, take proper recovery time.
-    </li>
-
-    <li>
-        <span class="material-icons" style="color:#d32f2f;">check_circle</span>
-        <strong>Double check your registration, because a small mistake can affect someone's life.</strong>
-    </li>
-</ul>
-
-
-    <p class="note">⚠ Please register only if you meet the above conditions.</p>
+    <p class="note" style="margin-top:15px; font-weight:bold; color:#d32f2f;">
+        ⚠ Organ donation is a noble act — please fill the form truthfully.
+    </p>
 </div>
-
-
 
 <!-- FORM SECTION -->
 <div class="form-box">
-    <h2 style="color:#d32f2f;">Blood Donor Registration</h2>
+    <h2 style="color:#2e7d32;">Organ Donor Registration</h2>
 
-    <form method="POST">
+    <!-- 🔴 ONLY CHANGE: action added -->
+    <form method="POST" action="{% url 'register_organ' %}">
         {% csrf_token %}
 
         <label>Name</label>
-        <input type="text" name="name" id="name" required>
+        <input type="text" name="name" required>
 
-       <label>Age</label>
-       <input type="text" name="age" id="age" maxlength="2" required>
+        <label>Age</label>
+        <input type="text" name="age" id="age" maxlength="2" required>
 
-        <label>Blood Group</label>
-        <select name="blood_group" required>
-            <option>A+</option><option>A-</option>
-            <option>B+</option><option>B-</option>
-            <option>O+</option><option<O-</option>
-            <option>AB+</option><option>AB-</option>
+        <label>Organ Type</label>
+        <select name="organ_type" required>
+            <option>Heart</option>
+            <option>Kidney</option>
+            <option>Liver</option>
+            <option>Lungs</option>
+            <option>Pancreas</option>
+            <option>Eyes (Cornea)</option>
+            <option>Bone Marrow</option>
         </select>
 
         <label>Mobile</label>
@@ -189,10 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <label>Location</label>
         <input type="text" name="location" id="location" required>
 
-
-        <!-- CHECKBOX -->
+        <!-- 🔴 ONLY CHANGE: name="agree" added -->
         <div class="agree-box">
-            <input type="checkbox" id="agree" required>
+            <input type="checkbox" id="agree" name="agree" required>
             <label for="agree">
                 I confirm that I meet all the eligibility requirements listed above.
             </label>
