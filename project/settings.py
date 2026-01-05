@@ -18,9 +18,15 @@ SECRET_KEY = os.environ.get(
     "django-insecure-dev-key-change-this"
 )
 
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".onrender.com",
+]
+
 
 # --------------------------------------------------
 # APPLICATIONS
@@ -65,7 +71,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / "templates" ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +82,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 # --------------------------------------------------
 # DATABASE (SQLITE)
@@ -135,7 +142,23 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+
+# --------------------------------------------------
+# AUTH REDIRECTS
+# --------------------------------------------------
+LOGIN_URL = "/donor/login/"
+LOGIN_REDIRECT_URL = "/donor/dashboard/"
+LOGOUT_REDIRECT_URL = "/"
+
+
+
 # --------------------------------------------------
 # DEFAULT PRIMARY KEY
 # --------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --------------------------------------------------
+# EMAIL (DEV)
+# --------------------------------------------------
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
